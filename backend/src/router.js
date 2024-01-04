@@ -8,6 +8,8 @@ const router = express.Router();
 
 //routers
 router.get('/tasks', tasksController.getAll); //call getAll function from tasks controller
+router.post('/tasks', tasksController.createTask); //call createTask function from tasks controller
+
 
 //export module
 module.exports = router;
