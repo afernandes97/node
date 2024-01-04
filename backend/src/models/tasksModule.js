@@ -8,10 +8,10 @@ const connection = require('./connection');
  *
  */
 const getAll = async() => {
-  const tasks = await connection.execute('SELECT * FROM tasks'); // using connection.execute to execute sql querys
+  const [tasks] = await connection.execute('SELECT * FROM tasks'); // using connection.execute to execute sql querys, [tasks] to get first index of returned array
   
   //return tasks data, array zero to get data from data base, array 1 have buffer data
-  return tasks[0];
+  return tasks;
 };
 
 module.exports = {
