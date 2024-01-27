@@ -27,7 +27,25 @@ const createTask = async(req,res) => {
     return res.status(500).json({ error: 'Internal Server Error' });
   }
 };
+
+/**
+ * @name createSubTask
+ * @description create sub task in the MySQL database
+ * @param taskId id from task
+ * @param req object request
+ * @param res object response
+ */
+const createSubTask = async(taskId,req,res) => {
+  try {
+    const createdTask = await tasksModel.createSubTask(taskId,req.body); // send taskId and req body to tasks module
+    return createdTask; // return the created sub task id
+  } catch (error) {
+    console.error('Error creating subtask:', error);
+    return res.status(500).json({ error: 'Internal Server Error' });
+  }
+};
 module.exports = {
   getAll,
-  createTask
+  createTask,
+  createSubTask
 };

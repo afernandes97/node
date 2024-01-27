@@ -26,18 +26,43 @@ const createTask = async (task) => {
   const dateUTC = new Date(Date.now()).toUTCString();
 
   //query to persist on database
-  const queryBD = 'INSERT INTO tasks(title,status,description,created_at) VALUES (?,?,?,?)';
+  const queryBD =
+    'INSERT INTO tasks(title,status,description,created_at) VALUES (?,?,?,?)';
 
   // execute query and pass params
-  const [createdTask] = await connection.execute(
-    queryBD,
-    [title, 'Awaiting', description, dateUTC]
-  );
+  const [createdTask] = await connection.execute(queryBD, [
+    title,
+    'Awaiting',
+    description,
+    dateUTC,
+  ]);
 
-  return {insertId: createdTask.insertId};
+  return { insertId: createdTask.insertId };
+};
+
+const createSubTask = async (taskId, subTask) => {
+  const { title } = subTask; // get title from req body
+  const { description } = subTask; // get description from req body
+  //UTC Date
+  const dateUTC = new Date(Date.now()).toUTCString(); // get today in utc date
+
+  //create a query bd to insert subtasks at table
+  const queryBD =
+    'INSERT INTO subtasks(task_id, title, description, created_at) VALUES (?,?,?,?)';
+
+  //create a connection to bd and send data
+  const [createSubTask] = await connection.execute(queryBD, [
+    taskId,
+    title,
+    description,
+    dateUTC,
+  ]);
+
+  return { insertId: createSubTask.insertId }; // return id for new subtask
 };
 
 module.exports = {
   getAll,
   createTask,
+  createSubTask,
 };
