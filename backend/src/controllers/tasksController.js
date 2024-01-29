@@ -29,6 +29,22 @@ const createTask = async(req,res) => {
 };
 
 /**
+ * @name getSubTaskFromId
+ * @description get all sub task using taskId in the MySQL database
+ * @param taskId id from task
+ * @param res object response
+ */
+const getSubTaskFromId = async(taskId,res) => {
+  try {
+    const getTaskUsingId = await tasksModel.getSubTaskFromId(taskId); // send taskId and req body to tasks module
+    return getTaskUsingId; // return the created sub task id
+  } catch (error) {
+    console.error('Error creating subtask:', error);
+    return res.status(500).json({ error: 'Internal Server Error' });
+  }
+};
+
+/**
  * @name createSubTask
  * @description create sub task in the MySQL database
  * @param taskId id from task
@@ -44,8 +60,10 @@ const createSubTask = async(taskId,req,res) => {
     return res.status(500).json({ error: 'Internal Server Error' });
   }
 };
+
 module.exports = {
   getAll,
   createTask,
-  createSubTask
+  createSubTask,
+  getSubTaskFromId
 };

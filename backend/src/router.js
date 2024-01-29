@@ -20,5 +20,16 @@ router.post('/tasks/:taskId/addSubtask', async (req, res) => {
   }
 });
 
+router.get('/tasks/:taskId/getSubTasks', async (req, res) => {
+  try {
+    const { taskId } = req.params; // get task id from requisition params
+    const result = await tasksController.getSubTaskFromId(parseInt(taskId),res); //call getSubTaskFromId in tasks controller and send task id & res
+    res.json(result);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Erro interno do servidor' });
+  }
+});
+
 //export module
 module.exports = router;
