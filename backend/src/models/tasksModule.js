@@ -41,6 +41,26 @@ const createTask = async (task) => {
 };
 
 /**
+ * @name deleteTask
+ * @description delete task in database mySql
+ * @param taskId task id
+ */
+const deleteTask = async (taskId) => {
+  console.log(taskId);
+  await connection.execute('DELETE FROM subtasks WHERE task_id = ?', [taskId]);
+  //query to persist on database
+  const queryBD =
+    'DELETE FROM tasks WHERE id = ?';
+
+  // execute query and pass params
+  const [deleteTask] = await connection.execute(queryBD, [
+    taskId
+  ]);
+  //return quantity of rows affected
+  return deleteTask.affectedRows;
+};
+
+/**
  * @name getAll
  * @description get all tasks data from mySql
  * @constant tasks to save recived tasks from mysql data
@@ -88,6 +108,7 @@ const createSubTask = async (taskId, subTask) => {
 module.exports = {
   getAll,
   createTask,
+  deleteTask,
   createSubTask,
   getSubTaskFromId
 };

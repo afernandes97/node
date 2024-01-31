@@ -9,6 +9,16 @@ const router = express.Router();
 //routers
 router.get('/tasks', tasksController.getAll); //call getAll function from tasks controller
 router.post('/tasks', tasksController.createTask); //call createTask function from tasks controller
+router.delete('/delete-task/:taskId', async (req,res) => {
+  try{
+    const { taskId } = req.params;
+    const result = await tasksController.deleteTask(parseInt(taskId),req);
+    return res.status(200).json({message: `${result} tarefa deletada`});
+  }catch(error){
+    res.status(500).json({error: 'Erro ao excluir tarefa'});
+  }
+}); //call deleteTask function from tasks controller
+
 router.post('/tasks/:taskId/addSubtask', async (req, res) => {
   try {
     const { taskId } = req.params; // get task id from requisition params

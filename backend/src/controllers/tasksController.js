@@ -29,6 +29,23 @@ const createTask = async(req,res) => {
 };
 
 /**
+ * @name deleteTask
+ * @description delete task and subtask in the MySQL database
+ * @param taskId id from task
+ * @param res object response
+ */
+const deleteTask = async(taskId,res) => {
+  try {
+    const deletedTask = await tasksModel.deleteTask(taskId); // send req body to tasks module
+    console.log(deletedTask);// return the created task as JSON
+    return deletedTask;
+  } catch (error) {
+    console.error('Error creating task:', error);
+    return res.status(500).json({ error: 'Internal Server Error' });
+  }
+};
+
+/**
  * @name getSubTaskFromId
  * @description get all sub task using taskId in the MySQL database
  * @param taskId id from task
@@ -64,6 +81,7 @@ const createSubTask = async(taskId,req,res) => {
 module.exports = {
   getAll,
   createTask,
+  deleteTask,
   createSubTask,
   getSubTaskFromId
 };
